@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "Deciduous",
+  "version": "0.1",
+  "description": "Leaves of notes to copy and paste wherever.",
+  "homepage_url": "https://github.com/saaliklok/deciduous",
+  "icons": {
+    "48": "icons/deciduous-48.png"
+  },
+  "permissions": [
+    "clipboardWrite",
+    "storage"
+  ],
+  "browser_action": {
+    "default_title": "Text Zone",
+    "default_icon": "icons/deciduous-48.png",
+    "default_popup": "popup/text_zone.html"
+  }
+}
