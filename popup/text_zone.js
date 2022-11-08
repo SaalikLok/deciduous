@@ -9,26 +9,22 @@ copyButton.addEventListener("click", copyTreeToClipboard);
 function appendLeaf() {
   const leafText = textArea.value;
   const currentTreePromise = browser.storage.local.get("deciduousTree");
-
+  
   currentTreePromise.then((result) => {
-    // what happens if this is empty to begin with??
+    const tree = result.deciduousTree
 
-    const tree = result[0].deciduousTree
+    if(tree) {
+      setToStorage(tree, leafText);
+    } else {
+      setToStorage("", leafText)
+    }
 
-    // check that we can read the current value of the tree
-    console.log(`current tree: ${tree}`)
-    
-    setToStorage(tree, leafText);
     leafText.value = "";
   }, onError);
 }
 
 function setToStorage(currentTree, text) {
-  // is there a more elegant way to append?
   const storingLeaf = browser.storage.local.set({"deciduousTree": `${currentTree} \n \n ${text}`});
-
-  // check that we're correctly appending the current text to the tree
-  console.log(`storing this: ${currentTree} \n \n ${text}`)
 
   storingLeaf.then(() => {
     window.close();
@@ -39,7 +35,7 @@ function copyTreeToClipboard() {
   const currentTreePromise = browser.storage.local.get("deciduousTree");
 
   currentTreePromise.then((result) => {
-    const tree = result[0].deciduousTree
+    const tree = result.deciduousTree
 
     writeToClipboard(tree);
     clearStorage();
@@ -55,7 +51,7 @@ function writeToClipboard(content) {
 function clearStorage() {
   browser.storage.local.clear().then(() => {
     console.log("cleared storage");
-  }, isError);
+  }, onError);
 }
 
 function onError(error) {
